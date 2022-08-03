@@ -1,0 +1,2 @@
+This repository is for the development and maintence of the artifact factory. An artifact factory creates and tests applicaton artifacts.
+These typically take the form of images and executables, that can then be later used for production or other development environments.

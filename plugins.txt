@@ -22,7 +22,8 @@ pipeline-stage-view:latest
 ssh-slaves:latest
 sshd:latest
 ws-cleanup:latest
-
+docker-workflow
+docker-plugin
 
 antisamy-markup-formatter:latest
 build-timeout:latest
