@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+    jenkins:
+        build:
+            context: .
+        user: root
+        privileged: true
+        environment:
+            - JENKINS_OPTS='--prefix=/jenkins'
+        ports:
+            - 8080:8080
+            - 50000:50000
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /c/Users/Alpha//Documents/Work/bootstrapper/jenkins_compose/jenkins_configuration:/var/jenkins_home
+        container_name: "jenkins"
+    agent:
+        build:
+            context: ./agent
+        privileged: true
+        user: root
+        container_name: agent
+        expose:
+            - 22
+        environment:
+            - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw5UDvqfbEMfdSGZc4xS6z6aHi4X7IWXmxfI6QFLwT3q+xrBGPI2DZExcIHGwW2nO/XHttDW8bncUioZ5R8bMReX7KeYr7ZIKr72t3HnQzUkVDF5oHKEIAlSRRcWAy351QXSlAyQxgx4SQBsBVu/8or33vbCI7rfxhcP5fGr3uwbqD4oEyzmizrUQJTn3EO40PD4lbKFEJhKTfQ8/XiOD08EzLvACBqp42tsZOxFLK8qPRqjmkC8LJeEOPlZJpoqXjN2cTTFCFFLU/kNTR0oQ9rl6S6VuYF5D5Yn3XvdWpxh/CyEQW6D88CWOJa44oZ4dPANgSGE2xjJcYysscVDHv Alpha@Electr

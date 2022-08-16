@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  jenkins-docker:
+    image: docker:dind
+    restart: always
+    privileged: "true"
+    container_name: "jenkins"
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    ports:
+      - "2376:2376"
+    networks:
+      jenkins:
+        aliases:
+          - docker
+    volumes:
+      - type: volume
+        source: jenkins-docker-certs
+        target: /certs/client
+      - type: volume
+        source: jenkins-data
+        target: /var/jenkins_home
+
+  jenkins-blueocean:
+    build:
+      context: .
+    restart: always
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    container_name: "blueocean"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - jenkins
+    depends_on:
+      - jenkins-docker
+    volumes:
+      - type: volume
+        source: jenkins-data
+        target: /c/Users/Alpha/Documents/Work/bootstrapper/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - type: volume
+        source: jenkins-docker-certs
+        target: /certs/client
+        read_only: "true"
+
+networks:
+  jenkins:
+
+
+volumes:
+  jenkins-docker-certs:
+    driver: local
+    # - "/c/Users/Alpha/Documents/Work/bootstrapper.artifactory/attempt4/certs" # driver: local
+  jenkins-data:
+    driver: local
+    # - "/c/Users/Alpha/Documents/Work/bootstrapper.artifactory/attempt4/data" # driver: local
