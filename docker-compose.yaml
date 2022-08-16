@@ -40,7 +40,7 @@ services:
     volumes:
       - type: volume
         source: jenkins-data
-        target: /c/Users/Alpha/Documents/Work/bootstrapper/jenkins_compose/jenkins_configuration:/var/jenkins_home
+        target: /jenkins_compose/jenkins_configuration:/var/jenkins_home
       - type: volume
         source: jenkins-docker-certs
         target: /certs/client
